@@ -56,7 +56,7 @@ struct TextDisplayWidget : TransparentWidget {
 		const char* text = displayText.c_str();
 
 		nvgFontSize(args.vg, fontSize);  // Font size
-		if (customFont) {
+		if (!customFont) {
 			nvgFontFaceId(args.vg, customFont->handle);
 		} else {
 			// Fallback to default font
@@ -67,11 +67,13 @@ struct TextDisplayWidget : TransparentWidget {
 		NVGcolor textColor = nvgRGB(0, 0, 0);
 		nvgFillColor(args.vg, textColor);
 
+		#ifndef METAMODULE // not sure why this crashes the MM?
 		float bounds[4];
 		nvgTextBounds(args.vg, 0, 0, text, nullptr, bounds);
 		float textWidth = bounds[2] - bounds[0];
 		float textHeight = bounds[3] - bounds[1];
 		box.size = Vec(textWidth + 4, textHeight + 4); // Add some padding
+		#endif
 
 		// Draw the text at a specific position
 		int alignment;

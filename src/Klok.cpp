@@ -1,15 +1,21 @@
 #include "plugin.hpp"
 
 #include <iostream>
+#ifndef METAMODULE
 #include <sstream>
+#endif
 using namespace std;
 
 const int MOD_OUTPUTS = 8;
 
 std::string Convert (float number){
+#ifndef METAMODULE
 	std::ostringstream buff;
-	buff<<number;
+	buff << static_cast<int>(number);
 	return buff.str();
+#else
+	return std::to_string(static_cast<int>(number));
+#endif
 }
 
 struct Klok : Module {
